@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orca — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="canteen.css">
+</head>
+<body>
+
+<div id="portal-chooser">
+  <div class="portal-box">
+    <div class="portal-brand">
+      <div class="tag">Canteen POS</div>
+      <h1>Orca</h1>
+      <p>Select your portal to continue</p>
+    </div>
+    <div class="portal-cards">
+      <div class="portal-card staff" onclick="choosePortal('staff')">
+        <div class="portal-icon">🏪</div>
+        <div class="portal-card-label">Staff</div>
+        <div class="portal-card-sub">Canteen<br>Dashboard</div>
+      </div>
+      <div class="portal-card student" onclick="choosePortal('student')">
+        <div class="portal-icon">🎒</div>
+        <div class="portal-card-label">Student</div>
+        <div class="portal-card-sub">View Balance<br>& Spending</div>
+      </div>
+      <div class="portal-card teacher" onclick="choosePortal('teacher')">
+        <div class="portal-icon">📋</div>
+        <div class="portal-card-label">Teacher</div>
+        <div class="portal-card-sub">View Balance<br>& Spending</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     AUTH SCREEN (shared, typed by portal)
+══════════════════════════════════════════════════ -->
+
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-header">
+      <div class="back-link" onclick="goBackToChooser()">← Back</div>
+      <div class="portal-tag" id="auth-portal-tag">Staff</div>
+      <h1 id="auth-portal-title">Staff Portal</h1>
+    </div>
+
+    <div class="auth-tabs" id="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <div class="auth-body">
+      <!-- LOGIN -->
+      <form class="auth-form active" id="form-login" onsubmit="doLogin(event)">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" id="l-name" placeholder="e.g. Ana Reyes" required autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="l-pass" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <div class="auth-error" id="login-error"></div>
+        <button type="submit" class="btn-auth" id="login-btn">Sign In</button>
+      </form>
+
+      <!-- REGISTER (students & teachers only) -->
+      <form class="auth-form" id="form-register" onsubmit="doRegister(event)">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" id="r-name" placeholder="e.g. Juan dela Cruz" required>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="r-pass" placeholder="Min. 6 characters" required autocomplete="new-password">
+        </div>
+        <div class="field">
+          <label>Confirm Password</label>
+          <input type="password" id="r-pass2" placeholder="Repeat password" required autocomplete="new-password">
+        </div>
+        <div class="auth-error" id="register-error"></div>
+        <button type="submit" class="btn-auth" id="register-btn">Create Account</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     STAFF APP
+══════════════════════════════════════════════════ -->
+
+
+<!-- Shared modals needed for confirm_ used in auth -->
+<div id="toast"></div>
+
+<script src="js/shared.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

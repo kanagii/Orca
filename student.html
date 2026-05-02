@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orca — Student Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="canteen.css">
+</head>
+<body>
+
+  <div class="portal-topbar">
+    <div class="topbar-brand">
+      <div class="tag">Student</div>
+      <h2>Canteen Portal</h2>
+    </div>
+    <div class="topbar-user">
+      <span class="topbar-user-name" id="st-topbar-name">—</span>
+      <button class="btn-topbar-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+  <div class="portal-main">
+
+    <!-- Hero: balance -->
+    <div class="portal-hero">
+      <div class="portal-hero-left">
+        <h2 id="st-hero-name">Hello!</h2>
+        <div class="hero-sub">Student Account · Canteen Charge Summary</div>
+      </div>
+      <div class="portal-balance">
+        <div class="bal-label">Total Balance Owed</div>
+        <div class="bal-amount" id="st-hero-balance">₱0.00</div>
+        <div class="bal-note">Will be added to tuition billing</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="ic-label">Spent This Month</div>
+        <div class="ic-val accent" id="st-spent">—</div>
+      </div>
+      <div class="info-card">
+        <div class="ic-label">Monthly Budget</div>
+        <div class="ic-val green" id="st-budget-display">No limit</div>
+      </div>
+      <div class="info-card">
+        <div class="ic-label">Budget Remaining</div>
+        <div class="ic-val blue" id="st-budget-rem">—</div>
+      </div>
+    </div>
+
+    <!-- Budget setter -->
+    <div class="budget-panel">
+      <h3>Monthly Budget Limit</h3>
+      <div style="font-size:13px;color:var(--ink2);margin-bottom:8px;" id="st-budget-text">No budget limit set. Set one to track your canteen spending.</div>
+      <div class="budget-bar-wrap"><div class="budget-bar" id="st-budget-bar" style="width:0%"></div></div>
+      <div class="budget-set-row">
+        <input type="number" id="budget-input" placeholder="e.g. 500" min="0" step="0.01">
+        <button class="btn btn-green-soft" onclick="saveBudget()">Set Limit</button>
+        <button class="btn btn-ghost btn-sm" onclick="saveBudget(true)">Remove</button>
+      </div>
+    </div>
+
+    <!-- Recent transactions -->
+    <div class="txn-panel">
+      <h3>Recent Transactions</h3>
+      <div id="st-txn-list"><div style="text-align:center;padding:24px;font-family:var(--mono);font-size:12px;color:var(--ink3)">Loading…</div></div>
+    </div>
+
+  </div>
+
+
+<div id="toast"></div>
+
+<script src="js/shared.js"></script>
+<script src="js/student.js"></script>
+</body>
+</html>

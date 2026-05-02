@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orca — Staff Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="canteen.css">
+</head>
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="tag">Staff Portal</div>
+    <h1>Orca<br>v1</h1>
+  </div>
+  <div class="sidebar-nav">
+    <button class="nav-btn active" data-page="dashboard" onclick="nav('dashboard')">
+      <span class="icon" style="font-size:10px;font-family:var(--mono)">DB</span> Dashboard
+    </button>
+    <button class="nav-btn" data-page="products" onclick="nav('products')">
+      <span class="icon" style="font-size:10px;font-family:var(--mono)">PR</span> Products
+    </button>
+    <button class="nav-btn" data-page="purchase" onclick="nav('purchase')">
+      <span class="icon" style="font-size:10px;font-family:var(--mono)">PO</span> Purchase
+    </button>
+    <button class="nav-btn" data-page="users" onclick="nav('users')">
+      <span class="icon" style="font-size:10px;font-family:var(--mono)">US</span> Users
+    </button>
+    <button class="nav-btn" data-page="reports" onclick="nav('reports')">
+      <span class="icon" style="font-size:10px;font-family:var(--mono)">RP</span> Reports
+    </button>
+  </div>
+  <div class="sidebar-footer">
+    <div class="sidebar-user" id="sb-username">—</div>
+    <div id="db-status">Connecting…</div>
+    <div>citcreds1 · localhost</div>
+    <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ── DASHBOARD ── -->
+<div class="page active" id="page-dashboard">
+  <div class="page-header">
+    <div><h2>Dashboard</h2><div class="sub" id="dash-date">—</div></div>
+    <button class="btn btn-ghost btn-sm" onclick="loadDashboard()">Refresh</button>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">Today's Revenue</div><div class="stat-val accent" id="d-sales">—</div></div>
+    <div class="stat-card"><div class="stat-label">Transactions</div><div class="stat-val" id="d-txns">—</div></div>
+    <div class="stat-card"><div class="stat-label">Products</div><div class="stat-val green" id="d-prods">—</div></div>
+    <div class="stat-card"><div class="stat-label">Users</div><div class="stat-val blue" id="d-users">—</div></div>
+    <div class="stat-card"><div class="stat-label">Low Stock</div><div class="stat-val" id="d-low">—</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-header"><h3>Recent Transactions</h3></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>User</th><th>Type</th><th>Amount Charged</th><th>Date</th><th>Status</th></tr></thead>
+      <tbody id="dash-tbody"><tr class="loading-row"><td colspan="6">Loading…</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- ── PRODUCTS ── -->
+<div class="page" id="page-products">
+  <div class="page-header">
+    <div><h2>Products</h2><div class="sub">Click any field to edit inline</div></div>
+    <button class="btn btn-primary" onclick="openModal('modal-add-product')">+ Add Product</button>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>ID</th><th>Name</th><th>Price (₱)</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody id="prod-tbody"><tr class="loading-row"><td colspan="6">Loading…</td></tr></tbody>
+  </table></div>
+</div>
+
+<!-- ── PURCHASE ── -->
+<div class="page" id="page-purchase">
+  <div class="page-header">
+    <div><h2>Purchase</h2><div class="sub">Select customer · build cart · charge to their account</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start" class="purchase-layout">
+    <div>
+      <div class="panel">
+        <h3 style="margin-bottom:14px">Customer</h3>
+        <div class="field">
+          <label>Select User</label>
+          <div class="search-box" id="user-search-box">
+            <input type="text" id="pur-user-input" placeholder="Search by name…" autocomplete="off"
+              oninput="filterUserSearch()" onfocus="openSearchDrop('user')" onkeydown="searchKeyNav(event,'user')">
+            <input type="hidden" id="pur-user">
+            <div class="search-dropdown" id="user-search-drop"></div>
+          </div>
+        </div>
+        <div id="user-info-bar" style="display:none;margin-top:10px;padding:12px 14px;border-radius:var(--radius-sm);background:var(--surface2);font-size:13px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span style="color:var(--ink2)">Current Balance (owed)</span>
+            <span id="user-bal-show" style="font-family:var(--mono);font-weight:700;color:var(--accent)">₱0.00</span>
+          </div>
+          <div id="user-budget-bar-wrap" style="display:none;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;margin-top:8px;">
+              <span style="color:var(--ink2);font-size:12px">Monthly Budget</span>
+              <span id="user-budget-show" style="font-family:var(--mono);font-size:11px;color:var(--ink2)">—</span>
+            </div>
+            <div class="budget-bar-wrap"><div class="budget-bar" id="user-budget-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:14px">Add Items</h3>
+        <div class="form-grid cols-3" style="align-items:end">
+          <div class="field" style="grid-column:span 2">
+            <label>Product</label>
+            <div class="search-box" id="prod-search-box">
+              <input type="text" id="pur-prod-input" placeholder="Search product…" autocomplete="off"
+                oninput="filterProdSearch()" onfocus="openSearchDrop('prod')" onkeydown="searchKeyNav(event,'prod')">
+              <input type="hidden" id="pur-prod">
+              <div class="search-dropdown" id="prod-search-drop"></div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Qty</label>
+            <input type="number" id="pur-qty" value="1" min="1">
+          </div>
+        </div>
+        <button class="btn btn-ghost" style="margin-top:12px;width:100%;justify-content:center" onclick="addToCart()">+ Add to Cart</button>
+      </div>
+    </div>
+    <div>
+      <div class="panel" style="position:sticky;top:20px">
+        <div class="panel-header">
+          <h3>Cart</h3>
+          <button class="btn btn-sm btn-ghost" onclick="clearCart()">Clear</button>
+        </div>
+        <div id="cart-list"><div class="cart-empty">Cart is empty</div></div>
+        <div class="order-summary" id="cart-summary" style="display:none">
+          <div class="line"><span>Subtotal</span><span id="cs-sub">₱0.00</span></div>
+          <div class="line total"><span>Total to Charge</span><span class="amt" id="cs-total">₱0.00</span></div>
+        </div>
+        <button class="btn btn-primary" id="checkout-btn" onclick="checkout()" style="width:100%;margin-top:14px;justify-content:center" disabled>Confirm &amp; Charge Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── USERS ── -->
+<div class="page" id="page-users">
+  <div class="page-header">
+    <div><h2>Users</h2><div class="sub">Manage students &amp; teachers · view account balances</div></div>
+    <!-- <button class="btn btn-primary" onclick="openModal('modal-add-user')">+ Add User</button> -->
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Balance Owed</th></tr></thead>
+    <tbody id="users-tbody"><tr class="loading-row"><td colspan="4">Loading…</td></tr></tbody>
+  </table></div>
+</div>
+
+<!-- ── REPORTS ── -->
+<div class="page" id="page-reports">
+  <div class="page-header">
+    <div><h2>Reports</h2><div class="sub">Sales history &amp; daily summary</div></div>
+    <button class="btn btn-ghost btn-sm" onclick="loadReports()">Refresh</button>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">Today's Revenue</div><div class="stat-val accent" id="r-sales">—</div></div>
+    <div class="stat-card"><div class="stat-label">Today's Transactions</div><div class="stat-val" id="r-count">—</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-header"><h3>Last 50 Transactions</h3></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>User</th><th>Type</th><th>Amount</th><th>Date</th></tr></thead>
+      <tbody id="rep-tbody"><tr class="loading-row"><td colspan="5">Loading…</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+</main>
+</div>
+
+
+     MODALS (shared)
+══════════════════════════════════════════════════ -->
+
+<!-- Add Product -->
+<div class="modal-bg" id="modal-add-product">
+  <div class="modal">
+    <h3>Add Product</h3>
+    <p class="sub">New item will appear in the catalog immediately.</p>
+    <div class="form-grid cols-2" style="margin-bottom:14px">
+      <div class="field" style="grid-column:span 2"><label>Name</label><input type="text" id="np-name" placeholder="e.g. Fried Rice"></div>
+      <div class="field"><label>Price (₱)</label><input type="number" id="np-price" step="0.01" min="0" placeholder="0.00"></div>
+      <div class="field"><label>Stock</label><input type="number" id="np-stock" min="0" placeholder="0"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-product')">Cancel</button>
+      <button class="btn btn-primary" onclick="createProduct()">Add Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add User -->
+<!-- <div class="modal-bg" id="modal-add-user">
+  <div class="modal">
+    <h3>Add User</h3>
+    <p class="sub">Account starts with ₱0.00 balance (amount owed).</p>
+    <div class="form-grid cols-2" style="margin-bottom:14px">
+      <div class="field" style="grid-column:span 2"><label>Full Name</label><input type="text" id="nu-name" placeholder="e.g. Juan dela Cruz"></div>
+      <div class="field">
+        <label>Type</label>
+        <select id="nu-type">
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+          <option value="staff">Staff</option>
+        </select>
+      </div>
+      <div class="field"><label>Password</label><input type="password" id="nu-pass" placeholder="Min. 6 characters"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-add-user')">Cancel</button>
+      <button class="btn btn-primary" onclick="createUser()">Add User</button>
+    </div>
+  </div>
+</div> -->
+
+<!-- Confirm -->
+<div class="modal-bg" id="modal-confirm">
+  <div class="modal">
+    <h3 id="mc-title">Confirm</h3>
+    <p class="sub" id="mc-body">Are you sure?</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-confirm')">Cancel</button>
+      <button class="btn btn-danger-soft" id="mc-ok">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Receipt -->
+<div class="modal-bg" id="modal-receipt">
+  <div class="modal">
+    <h3>Transaction Complete</h3>
+    <p class="sub">Amount has been charged to the user's account.</p>
+    <div class="receipt" id="receipt-body"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeModal('modal-receipt');clearCart()">Done</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+
+<div id="toast"></div>
+
+<script src="js/shared.js"></script>
+<script src="js/staff.js"></script>
+</body>
+</html>

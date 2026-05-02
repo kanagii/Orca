@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orca — Teacher Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="canteen.css">
+</head>
+<body>
+
+  <div class="portal-topbar">
+    <div class="topbar-brand">
+      <div class="tag">Teacher</div>
+      <h2>Canteen Portal</h2>
+    </div>
+    <div class="topbar-user">
+      <span class="topbar-user-name" id="tc-topbar-name">—</span>
+      <button class="btn-topbar-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+  <div class="portal-main">
+
+    <!-- Hero: balance -->
+    <div class="portal-hero">
+      <div class="portal-hero-left">
+        <h2 id="tc-hero-name">Hello!</h2>
+        <div class="hero-sub">Teacher Account · Canteen Charge Summary</div>
+      </div>
+      <div class="portal-balance">
+        <div class="bal-label">Total Balance Owed</div>
+        <div class="bal-amount" id="tc-hero-balance">₱0.00</div>
+        <div class="bal-note">Will be deducted from salary</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="ic-label">Spent This Month</div>
+        <div class="ic-val accent" id="tc-spent">—</div>
+      </div>
+      <div class="info-card">
+        <div class="ic-label">Total Owed</div>
+        <div class="ic-val blue" id="tc-balance">—</div>
+      </div>
+    </div>
+
+    <!-- Recent transactions -->
+    <div class="txn-panel">
+      <h3>Recent Transactions</h3>
+      <div id="tc-txn-list"><div style="text-align:center;padding:24px;font-family:var(--mono);font-size:12px;color:var(--ink3)">Loading…</div></div>
+    </div>
+
+  </div>
+
+
+<div id="toast"></div>
+
+<script src="js/shared.js"></script>
+<script src="js/teacher.js"></script>
+</body>
+</html>
