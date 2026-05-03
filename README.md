@@ -11,7 +11,7 @@ instructions for use:
 
 2. setting up site
 - in your file explorer, move the canteensys folder inside C:\xampp\htdocs
-- open your browser and go to http://localhost/canteensys/index.html
+- open your browser and go to http://localhost/canteensys/login.html
 
 default passwords for students and teachers: password123
 ex. Ben Santos, password123
