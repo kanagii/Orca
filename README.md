@@ -28,8 +28,13 @@ Password: password
   4. [WIP] ERD stuff
   5. [WIP] text polishing sa site, like changing the "Canteen System" text to CITCreds and stuff. 
   6. [DONE] ~~user interface for students and teachers~~
-  7. [WIP] implement search feature instead of scrolling down for every user when charging users
-  8. [WIP] Remove emojis when charging users
+  7. ~~[DONE] implement search feature instead of scrolling down for every user when charging users~~
+  8. ~~[WIP] Remove emojis when charging users~~
   9. [WIP] update figma(?? do we have to update figma...)
   10. [WIP] find bugs and fix
-  11. [WIP] Split index.html into different html files (student dashboard, canteen staff dashboard, teacher dashboard)
+  11. ~~[DONE] Split index.html into different html files (student dashboard, canteen staff dashboard, teacher dashboard)~~
+
+
+notes:
+- changed name from citcreds to orca. was supposed to be aurca but it sounded too zesty xd
+  derived from au (short for aurei and aureae which means golden people) and arca (latin for vault). i take the meaning as "vault for the golden", since gold is one of the main themes sa CITU. corny project name but i think its memorable enough
