@@ -1,3 +1,6 @@
+
+### Information Management Final Project
+
 instructions for use:
 
 1. setting up database
