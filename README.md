@@ -26,7 +26,7 @@ Password: password
   2. [DONE] ~~login register user authentication backend~~
   3. [DONE] ~~user balance display~~
   4. [WIP] ERD stuff
-  5. [WIP] text polishing sa site, like changing the "Canteen System" text to CITCreds and stuff. 
+  5. [WIP] text polishing sa site, like changing the "Canteen System" text to Orca and stuff. 
   6. [DONE] ~~user interface for students and teachers~~
   7. [DONE] ~~implement search feature instead of scrolling down for every user when charging users~~
   8. [DONE] ~~Remove emojis when charging users~~
